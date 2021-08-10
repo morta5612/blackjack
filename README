@@ -1,0 +1,7 @@
+Blackjack
+Author: Melanney Orta
+Date: 08/10/21
+Version: 0.1.0
+Description: Blackjack recreated on the command line in Python. Currently uses a list to generate
+cards. In the future, will use a deck object to limit the program to using a deck of 52 cards. This
+object will also allow the program to display the face and suit of each card.
