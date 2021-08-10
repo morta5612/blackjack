@@ -1,25 +1,39 @@
 import random
+from cards import *
 
 # setting up deck of cards
-cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+deck = Deck()
 
 
-# generates initial hand for the player
-def player_hand():
-    return [random.choice(cards), random.choice(cards)]
-
-
-# generates initial hand for the dealer (cpu)
-def dealer_hand():
-    return [random.choice(cards), random.choice(cards)]
+# generates initial hand for the player and cpu
+def hand():
+    # pick 2 random cards from the deck
+    c1, c2 = random.choice(deck.d), random.choice(deck.d)
+    # add those cards to the hand
+    p_hand = [c1, c2]
+    # remove both the cards from the deck so they cannot be drawn again
+    deck.d.remove(c1)
+    deck.d.remove(c2)
+    return p_hand
 
 
 # gets the total point value for the given hand
-def total(hand):
+def total(deck_hand):
     num = 0
-    for x in hand:
-        num += x
+    for x in deck_hand:
+        num += x.points
     return num
+
+
+# a printer that displays the player's hand in a nice format
+def print_player_hand(p_hand):
+    hand_str = "["
+    x = 0
+    while x < len(p_hand) - 1:
+        hand_str += str(p_hand[x]) + " (" + str(p_hand[x].points) + ") , "
+        x += 1
+    hand_str += str(p_hand[-1]) + " (" + str(p_hand[-1].points) + ")]"
+    return hand_str
 
 
 # asks the player for input to hit (pick another card) or stand (stop drawing)
@@ -30,8 +44,12 @@ def hit_or_stand(p_hand):
         inp = input("Hit(H) or Stand(S)?: ")
         if inp.upper() == 'H':
             print("Hit")
-            p_hand.append(random.choice(cards))
-            print(p_hand)
+            # pick a random card from the deck, add it to the hand and remove
+            # it from the deck so it cannot be picked again
+            c = random.choice(deck.d)
+            p_hand.append(c)
+            deck.d.remove(c)
+            print(print_player_hand(p_hand))
             return True
         else:
             print("Stand")
@@ -41,10 +59,11 @@ def hit_or_stand(p_hand):
         return False
 
 
-# compares the player and dealer hands to determine a winner
 def compare(p_hand, d_hand):
+    # total point values for each hand
     p_total = total(p_hand)
     d_total = total(d_hand)
+    # finding the difference from 21 of each hand
     p_difference = 21 - p_total
     d_difference = 21 - d_total
 
@@ -61,12 +80,12 @@ def compare(p_hand, d_hand):
         print("Dealer is closer to 21, Dealer wins")
 
 
-# driver for the project
 def go():
-    player = player_hand()
-    dealer = dealer_hand()
-    print("Player Hand: " + str(player))
-    print("Dealer Hand: [" + str(dealer[0]) + ", ?]")
+    player = hand()
+    dealer = hand()
+    print("Player Hand: ", end="")
+    print(print_player_hand(player))
+    print("Dealer Hand: [" + str(dealer[0]) + " (" + str(dealer[0].points) + "), ?]")
     while True:
         if not hit_or_stand(player):
             break

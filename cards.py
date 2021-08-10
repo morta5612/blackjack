@@ -1,5 +1,3 @@
-import copy
-import random
 from enum import Enum
 
 
@@ -15,7 +13,6 @@ class Suit(Enum):
 
 
 # enum for the faces
-# TODO: Figure out how to change values of J, Q and K to 10 when scoring
 class Face(Enum):
     ACE = 1
     TWO = 2
@@ -40,6 +37,11 @@ class Card:
     def __init__(self, name: Face, suit: Suit):
         self.name = name
         self.suit = suit
+        # assigns point values for the cards
+        if self.name.value == 11 or self.name.value == 12 or self.name.value == 13:
+            self.points = 10
+        else:
+            self.points = self.name.value
 
     def get_name(self):
         return self.name
@@ -51,6 +53,7 @@ class Card:
         return str(self.name) + " OF " + str(self.suit)
 
 
+# object for a deck of card objects
 class Deck:
     # deck is hardcoded to be a normal deck of 52 cards
     def __init__(self):
@@ -62,20 +65,3 @@ class Deck:
             self.d.append(Card(Face(x), Suit.HEARTS))
             self.d.append(Card(Face(x), Suit.SPADES))
             x += 1
-
-
-test = Deck()
-print(str(random.choice(test.d)))
-"""
-class Hand:
-    def __init__(self, size: int, hand_cards: Card):
-        self.size = size
-        self.hand_cards = hand_cards[size]
-
-    def __str__(self):
-        hand_string = ""
-        for card in self.hand_cards:
-            hand_string = hand_string + str(card)
-
-
-"""
