@@ -1,19 +1,20 @@
 import random
 
-# from enum import Enum
-
-# Setting up deck of cards
+# setting up deck of cards
 cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
+# generates initial hand for the player
 def player_hand():
     return [random.choice(cards), random.choice(cards)]
 
 
+# generates initial hand for the dealer (cpu)
 def dealer_hand():
     return [random.choice(cards), random.choice(cards)]
 
 
+# gets the total point value for the given hand
 def total(hand):
     num = 0
     for x in hand:
@@ -21,6 +22,9 @@ def total(hand):
     return num
 
 
+# asks the player for input to hit (pick another card) or stand (stop drawing)
+# if the player reaches 21 exactly, automatic stand. If the player goes over 21,
+# player will lose.
 def hit_or_stand(p_hand):
     if total(p_hand) < 21:
         inp = input("Hit(H) or Stand(S)?: ")
@@ -37,6 +41,7 @@ def hit_or_stand(p_hand):
         return False
 
 
+# compares the player and dealer hands to determine a winner
 def compare(p_hand, d_hand):
     p_total = total(p_hand)
     d_total = total(d_hand)
@@ -56,6 +61,7 @@ def compare(p_hand, d_hand):
         print("Dealer is closer to 21, Dealer wins")
 
 
+# driver for the project
 def go():
     player = player_hand()
     dealer = dealer_hand()
