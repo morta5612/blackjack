@@ -41,19 +41,27 @@ def print_player_hand(p_hand):
 # player will lose.
 def hit_or_stand(p_hand):
     if total(p_hand) < 21:
-        inp = input("Hit(H) or Stand(S)?: ")
-        if inp.upper() == 'H':
-            print("Hit")
-            # pick a random card from the deck, add it to the hand and remove
-            # it from the deck so it cannot be picked again
-            c = random.choice(deck.d)
-            p_hand.append(c)
-            deck.d.remove(c)
-            print(print_player_hand(p_hand))
-            return True
-        else:
-            print("Stand")
-            return False
+        # loop until valid input is received
+        loop_var = True
+        while loop_var:
+            inp = input("Hit(H) or Stand(S)?: ")
+            if inp.upper() == 'H':
+                print("Hit")
+                # pick a random card from the deck, add it to the hand and remove
+                # it from the deck so it cannot be picked again
+                c = random.choice(deck.d)
+                p_hand.append(c)
+                deck.d.remove(c)
+                print(print_player_hand(p_hand))
+                loop_var = False
+                return True
+            elif inp.upper() == 'S':
+                print("Stand")
+                loop_var = False
+                return False
+            else:
+                loop_var = True
+
     elif total(p_hand) == 21:
         print("Total is 21, Stand")
         return False
