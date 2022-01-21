@@ -1,26 +1,38 @@
 import pygame
-# colors
-WHITE = (255, 255, 255)
-GREY = (82, 80, 87)
-BLACK = (0, 0, 0)
-
 pygame.init()
 
-screen = pygame.display.set_mode((800, 600))
-screen.fill(GREY)
-pygame.display.set_caption("Blackjack :)")
-icon = pygame.image.load("download.jpg")
-pygame.display.set_icon(icon)
+width = 600
+height = 600
+white = (255, 255, 255)
+black = (0, 0, 0)
 
-# fonts
-text_font = pygame.font.Font(None, 30)
-title_font = pygame.font.Font(None, 50)
+display = pygame.display.set_mode((width, height))
+iconimg = pygame.image.load("cards.png")
+pygame.display.set_icon(iconimg)
+pygame.display.set_caption("Blackjack")
 
-# button time
-hit_button = title_font.render("Hit", True, BLACK)
-hit_button_rect = hit_button.get_rect()
-hit_button_rect.center = (280, 400)
+clock = pygame.time.Clock()
+crashed = False
+titleimg = pygame.image.load("titlecards.png")
 
-stand_button = title_font.render("Stand", True, BLACK)
-stand_button_rect = stand_button.get_rect()
-stand_button_rect.center = (520, 400)
+
+def titlecards(xcord, ycord):
+    display.blit(titleimg, (xcord, ycord))
+
+
+x = (width * 0.3)
+y = (height * 0.3)
+
+while not crashed:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            crashed = True
+        print(event)
+
+    display.fill(white)
+    titlecards(x, y)
+    pygame.display.update()
+    clock.tick(60)
+
+pygame.quit()
+quit()
